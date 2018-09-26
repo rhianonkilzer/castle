@@ -52,6 +52,9 @@ namespace CastleGrimtol.Project
 
     public class Room
     {
+        public Room()
+        {
+        }
     }
 
     public class Player
