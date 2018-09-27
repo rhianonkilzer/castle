@@ -8,7 +8,7 @@ namespace CastleGrimtol.Project
         public List<Item> Inventory { get; set; }
     }
 
-    public interface IPlayer
-    {
-    }
+    // public interface IPlayer
+    // {
+    // }
 }

@@ -8,7 +8,7 @@ namespace CastleGrimtol.Project
         List<Item> Inventory { get; set; }
     }
 
-    public class Item
-    {
-    }
+    // public class Item
+    // {
+    // }
 }

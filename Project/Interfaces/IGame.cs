@@ -50,14 +50,14 @@ namespace CastleGrimtol.Project
         #endregion
     }
 
-    public class Room
-    {
-        public Room()
-        {
-        }
-    }
+    // public class Room
+    // {
+    //     public Room()
+    //     {
+    //     }
+    // }
 
-    public class Player
-    {
-    }
+    // public class Player
+    // {
+    // }
 }

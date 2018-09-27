@@ -8,6 +8,10 @@ namespace CastleGrimtol
         public static void Main(string[] args)
         {
 
+            Console.Clear();
+            Console.WriteLine("Turdssssssssssssssss");
+            Game game = new Game();
+            game.StartGame();
         }
     }
 }
