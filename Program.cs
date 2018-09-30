@@ -9,6 +9,10 @@ namespace CastleGrimtol
         {
             Game game = new Game();
             game.StartGame();
+            while (game.playing)
+            {
+                game.GetUserInput();
+            }
         }
     }
 }

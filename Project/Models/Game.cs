@@ -7,17 +7,44 @@ namespace CastleGrimtol.Project
     {
         public Room CurrentRoom { get; set; }
         public Player CurrentPlayer { get; set; }
-        bool playing = false;
+        public bool playing = false;
 
 
         public void GetUserInput()
         {
-            //get that user input stuff
+            System.Console.WriteLine("Which way would you like to go?");
+            string input = Console.ReadLine();
+            string[] data = input.Split(" ");
+            switch (data[0].ToLower())
+            {
+                case "go":
+                    Go(data[1].ToLower());
+                    break;
+                case "take":
+                    TakeItem(data[1].ToLower());
+                    break;
+                case "use":
+                    UseItem(data[1].ToLower());
+                    break;
+                default:
+                    System.Console.WriteLine("Invalid response");
+                    break;
+
+            }
+
         }
 
         public void Go(string direction)
         {
-            //move the direction to go
+            if (CurrentRoom.Exits.ContainsKey(direction))
+            {
+                CurrentRoom = CurrentRoom.Exits[direction];
+                Look();
+            }
+            else
+            {
+                System.Console.WriteLine("....That's a wall, you can't go that direction.");
+            }
 
         }
 
@@ -33,6 +60,13 @@ namespace CastleGrimtol.Project
 
         public void Look()
         {
+            System.Console.WriteLine(CurrentRoom.Description);
+            System.Console.WriteLine("ITEMS:\n");
+            foreach (var item in CurrentRoom.Items)
+            {
+
+                System.Console.WriteLine(item.Description);
+            }
             //WHERE?!
         }
 
@@ -49,20 +83,21 @@ namespace CastleGrimtol.Project
         public void Setup()
         {
             playing = true;
-            CurrentPlayer = new Player();
             //setup rooms
             Room StartingPoint = new Room("Starting Room", "Where you woke up");
             Room KeyRoom = new Room("The next room through the cracked door", "This room has a shiney key on the floor with a hall leading to the next room");
             Room LockedRoom = new Room("Locked Room", "This room looks locked...");
             Room FinalRoom = new Room("The Final Room", "You found the final room!!");
 
+            Item ShineyKey = new Item("key", "It's shiney!");
+            KeyRoom.Items.Add(ShineyKey);
             //setup my exits
-            StartingPoint.Exits.Add("West", KeyRoom);
-            KeyRoom.Exits.Add("South", LockedRoom);
-            LockedRoom.Exits.Add("East", FinalRoom);
+            StartingPoint.Exits.Add("west", KeyRoom);
+            KeyRoom.Exits.Add("south", LockedRoom);
+            LockedRoom.Exits.Add("east", FinalRoom);
 
-
-
+            CurrentPlayer = new Player();
+            CurrentRoom = StartingPoint;
 
         }
 
@@ -73,18 +108,23 @@ namespace CastleGrimtol.Project
             Console.WriteLine("You have just regained conciousness, you're on a cold wet floor of a castle..");
             Console.WriteLine("You look around, and as you get up the floor begins to shake!");
             Console.WriteLine("As you quickly scan the room you notice an endless black hole in the floor to the west, and a cracked open door to the east.");
-            Console.WriteLine("Which direction would you like to go? I'd suggest not falling into the hole...");
+            Console.WriteLine("I'd suggest not falling into the hole...");
 
         }
 
         public void TakeItem(string itemName)
         {
+            Item foundItem = CurrentRoom.Items.Find(item => item.Name == itemName);
+            if (foundItem != null)
+            {
 
+            }
+            System.Console.WriteLine(itemName);
         }
 
         public void UseItem(string itemName)
         {
-
+            System.Console.WriteLine(itemName);
         }
 
     }
