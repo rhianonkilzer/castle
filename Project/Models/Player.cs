@@ -8,12 +8,6 @@ namespace CastleGrimtol.Project
         public List<Item> Inventory { get; set; }
 
 
-        // public Item PickupItem(string itemName)
-        // {
-
-        //         return Items.Find(i => i.Name == itemName);
-
-        // }
     }
 
 

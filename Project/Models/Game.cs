@@ -12,7 +12,7 @@ namespace CastleGrimtol.Project
 
         public void GetUserInput()
         {
-            System.Console.WriteLine("Which way would you like to go?");
+            System.Console.WriteLine("What would you like to do?");
             string input = Console.ReadLine();
             string[] data = input.Split(" ");
             switch (data[0].ToLower())
@@ -26,8 +26,14 @@ namespace CastleGrimtol.Project
                 case "use":
                     UseItem(data[1].ToLower());
                     break;
+                case "help":
+                    Help();
+                    break;
+                case "restart":
+                    Reset();
+                    break;
                 default:
-                    System.Console.WriteLine("Invalid response");
+                    System.Console.WriteLine("INVALID: Error code #3459694384837549");
                     break;
 
             }
@@ -51,6 +57,45 @@ namespace CastleGrimtol.Project
         public void Help()
         {
 
+            System.Console.WriteLine(@"
+
+                      | |__|__|__|__|__|__|__|__|__|_|
+ __    __    __       |_|___|___|___|___|___|___|___||       __    __    __
+|__|  |__|  |__|      |___|___|___|___|___|___|___|__|      |__|  |__|  |__|
+|__|__|__|__|__|       \____________________________/       |__|__|__|__|__|
+|_|___|___|___||        |_|___|___|___|___|___|___||        |_|___|___|___||
+|___|___|___|__|        |___|___|___|___|___|___|__|        |___|___|___|__|
+ \_|__|__|___|/          \________________________/          \_|__|__|__|_/
+  \__|____|__/            |___|___|___|___|___|__|            \__|__|__|_/
+   |||_|_|_||             |_|___|___|___|___|__|_|             |_|_|_|_||
+   ||_|_|||_|__    __    _| _  __ |_ __  _ __  _ |_    __    __||_|_|_|_|
+   |_|_|_|_||__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|_|_|_|_||
+   ||_|||_|||___|___|___|___|___|___|___|___|___|___|___|___|__||_|_|_|_|
+   |_|_|_|_||_|___|___|___|___|___|___|___|___|___|___|___|___||_|_|_|_||
+   ||_|_|_|_|___|___|___|___|___|___|___|___|___|___|___|___|__||_|_|_|_|
+   |_|||_|_||_|___|___|___|___|___|___|___|___|___|___|___|___||_|_|_|_||
+   ||_|_|_|_|___|___|___|___|___|_/| | | \__|___|___|___|___|__||_|_|_|_|
+   |_|_|_|_||_|___|___|___|___|__/ | | | |\___|___|___|___|___||_|_|_|_||
+   ||_|_|_|||___|___|___|___|___|| | | | | |____|___|___|___|__||_|_|_|_|
+   |_|_|_|_||_|___|___|___|___|_|| | | | | |__|___|___|___|___||_|_|_|_||
+  /___|___|__\__|___|___|___|___|| | | | | |____|___|___|___|_/_|___|__|_\
+ |_|_|_|_|_|_||___|___|___|___|_|| | | | | |__|___|___|___|__|_|__|__|__|_|
+ ||_|_|_|_|_|_|_|___|___|___|___||_|_|_|_|_|____|___|___|____|___|__|__|__|
+              ___
+             (._.)   
+             <|>     
+            _/\_     
+
+
+            
+
+            Here is a list of commands:
+            Help
+            Go <East, West, North, South>
+            Use <item>
+            Take <item>
+            Quit
+            ");
         }
 
         public void Inventory()
@@ -77,7 +122,7 @@ namespace CastleGrimtol.Project
 
         public void Reset()
         {
-
+            StartGame();
         }
 
         public void Setup()
@@ -92,9 +137,13 @@ namespace CastleGrimtol.Project
             Item ShineyKey = new Item("key", "It's shiney!");
             KeyRoom.Items.Add(ShineyKey);
             //setup my exits
-            StartingPoint.Exits.Add("west", KeyRoom);
+            StartingPoint.Exits.Add("east", KeyRoom);
+            KeyRoom.Exits.Add("west", StartingPoint);
             KeyRoom.Exits.Add("south", LockedRoom);
-            LockedRoom.Exits.Add("east", FinalRoom);
+            LockedRoom.Exits.Add("west", FinalRoom);
+            LockedRoom.Exits.Add("north", KeyRoom);
+            FinalRoom.Exits.Add("east", LockedRoom);
+
 
             CurrentPlayer = new Player();
             CurrentRoom = StartingPoint;
@@ -106,8 +155,7 @@ namespace CastleGrimtol.Project
             Setup();
             Console.Clear();
             Console.WriteLine("You have just regained conciousness, you're on a cold wet floor of a castle..");
-            Console.WriteLine("You look around, and as you get up the floor begins to shake!");
-            Console.WriteLine("As you quickly scan the room you notice an endless black hole in the floor to the west, and a cracked open door to the east.");
+            Console.WriteLine("As you scan the room you notice an endless black hole in the floor to the west, and a cracked open door to the east.");
             Console.WriteLine("I'd suggest not falling into the hole...");
 
         }
@@ -117,7 +165,8 @@ namespace CastleGrimtol.Project
             Item foundItem = CurrentRoom.Items.Find(item => item.Name == itemName);
             if (foundItem != null)
             {
-
+                // CurrentRoom.Items.Remove(Item);
+                // CurrentPlayer.Item.Add(Item);
             }
             System.Console.WriteLine(itemName);
         }
