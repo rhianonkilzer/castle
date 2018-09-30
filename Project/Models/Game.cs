@@ -32,8 +32,11 @@ namespace CastleGrimtol.Project
                 case "restart":
                     Reset();
                     break;
+                case "inventory":
+                    Inventory();
+                    break;
                 default:
-                    System.Console.WriteLine("INVALID: Error code #3459694384837549");
+                    System.Console.WriteLine("Invalid command, please try again or type help for a list of commands.");
                     break;
 
             }
@@ -100,7 +103,7 @@ namespace CastleGrimtol.Project
 
         public void Inventory()
         {
-            //Buncha junk in this thing here
+            System.Console.WriteLine(CurrentPlayer.Items);
         }
 
         public void Look()
@@ -165,8 +168,8 @@ namespace CastleGrimtol.Project
             Item foundItem = CurrentRoom.Items.Find(item => item.Name == itemName);
             if (foundItem != null)
             {
-                // CurrentRoom.Items.Remove(Item);
-                // CurrentPlayer.Item.Add(Item);
+                CurrentRoom.Items.Remove(foundItem);
+                CurrentPlayer.Items.Add(foundItem);
             }
             System.Console.WriteLine(itemName);
         }
