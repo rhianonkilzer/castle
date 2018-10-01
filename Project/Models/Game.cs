@@ -38,6 +38,10 @@ namespace CastleGrimtol.Project
                 case "quit":
                     Quit();
                     break;
+                case "look":
+                    Look();
+                    break;
+
                 default:
                     System.Console.WriteLine("Invalid command, please try again or type help for a list of commands.");
                     break;
@@ -52,6 +56,10 @@ namespace CastleGrimtol.Project
             {
                 CurrentRoom = CurrentRoom.Exits[direction];
                 Look();
+                if (CurrentRoom.GameOver)
+                {
+                    playing = false;
+                }
             }
             else
             {
@@ -144,11 +152,11 @@ namespace CastleGrimtol.Project
         {
             playing = true;
             //setup rooms
-            Room StartingPoint = new Room("Starting Room:", "Where you woke up", false);
-            Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false);
-            Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true);
-            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false);
-            Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false);
+            Room StartingPoint = new Room("Starting Room:", "Where you woke up", false, false);
+            Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false, false);
+            Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true, false);
+            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false, false);
+            Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false, true);
 
             Item ShinyKey = new Item("key", "It's shiny!");
             KeyRoom.Items.Add(ShinyKey);
