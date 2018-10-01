@@ -101,6 +101,8 @@ namespace CastleGrimtol.Project
             Use <item>
             Take <item>
             Quit
+            Restart
+            
             ");
         }
 
@@ -115,6 +117,7 @@ namespace CastleGrimtol.Project
 
         public void Look()
         {
+            System.Console.WriteLine(CurrentRoom.Name);
             System.Console.WriteLine(CurrentRoom.Description);
             System.Console.WriteLine("ITEMS:\n");
             foreach (var item in CurrentRoom.Items)
@@ -133,6 +136,7 @@ namespace CastleGrimtol.Project
 
         public void Reset()
         {
+
             StartGame();
         }
 
@@ -140,15 +144,17 @@ namespace CastleGrimtol.Project
         {
             playing = true;
             //setup rooms
-            Room StartingPoint = new Room("Starting Room", "Where you woke up");
-            Room KeyRoom = new Room("The next room through the cracked door", "This room has a shiney key on the floor with a hall leading to the next room");
-            Room LockedRoom = new Room("Locked Room", "This room looks locked...");
-            Room FinalRoom = new Room("The Final Room", "You found the final room!!");
+            Room StartingPoint = new Room("Starting Room:", "Where you woke up", false);
+            Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false);
+            Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true);
+            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false);
+            Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false);
 
-            Item ShineyKey = new Item("key", "It's shiney!");
-            KeyRoom.Items.Add(ShineyKey);
+            Item ShinyKey = new Item("key", "It's shiny!");
+            KeyRoom.Items.Add(ShinyKey);
             //setup my exits
             StartingPoint.Exits.Add("east", KeyRoom);
+            StartingPoint.Exits.Add("west", EndlessBlackHole);
             KeyRoom.Exits.Add("west", StartingPoint);
             KeyRoom.Exits.Add("south", LockedRoom);
             LockedRoom.Exits.Add("west", FinalRoom);
@@ -173,6 +179,7 @@ namespace CastleGrimtol.Project
             {
                 GetUserInput();
             }
+
         }
 
         public void TakeItem(string itemName)
@@ -188,7 +195,14 @@ namespace CastleGrimtol.Project
 
         public void UseItem(string itemName)
         {
-            System.Console.WriteLine(itemName);
+            //find item, if not null, flip locked on currentroom
+            Item playerItem = CurrentPlayer.Items.Find(item => item.Name == itemName);
+            if (playerItem != null)
+            {
+                CurrentPlayer.Items.Remove(playerItem);
+                CurrentRoom.Locked = false;
+                System.Console.WriteLine(itemName + " used! The Door unlocked");
+            }
         }
 
     }
