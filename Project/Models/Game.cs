@@ -35,6 +35,9 @@ namespace CastleGrimtol.Project
                 case "inventory":
                     Inventory();
                     break;
+                case "quit":
+                    Quit();
+                    break;
                 default:
                     System.Console.WriteLine("Invalid command, please try again or type help for a list of commands.");
                     break;
@@ -103,7 +106,11 @@ namespace CastleGrimtol.Project
 
         public void Inventory()
         {
-            System.Console.WriteLine(CurrentPlayer.Items);
+            foreach (var item in CurrentPlayer.Items)
+            {
+                System.Console.WriteLine(item.Name);
+
+            }
         }
 
         public void Look()
@@ -120,6 +127,7 @@ namespace CastleGrimtol.Project
 
         public void Quit()
         {
+            playing = false;
 
         }
 
@@ -161,6 +169,10 @@ namespace CastleGrimtol.Project
             Console.WriteLine("As you scan the room you notice an endless black hole in the floor to the west, and a cracked open door to the east.");
             Console.WriteLine("I'd suggest not falling into the hole...");
 
+            while (playing)
+            {
+                GetUserInput();
+            }
         }
 
         public void TakeItem(string itemName)
@@ -170,8 +182,8 @@ namespace CastleGrimtol.Project
             {
                 CurrentRoom.Items.Remove(foundItem);
                 CurrentPlayer.Items.Add(foundItem);
+                System.Console.WriteLine(foundItem.Name);
             }
-            System.Console.WriteLine(itemName);
         }
 
         public void UseItem(string itemName)
