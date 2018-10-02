@@ -110,6 +110,7 @@ namespace CastleGrimtol.Project
             Take <item>
             Quit
             Restart
+            Inventory
             
             ");
         }
