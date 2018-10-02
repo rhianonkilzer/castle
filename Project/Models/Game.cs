@@ -155,10 +155,10 @@ namespace CastleGrimtol.Project
             Room StartingPoint = new Room("Starting Room:", "Where you woke up", false);
             Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false);
             Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true);
-            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false);
+            Room StinkyRoom = new Room("The Stinky Room:", "This room smells like feet...", false);
             Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false);
             Room Lose = new Room("You lost... Oh jeez. Now what?!", "You should probably try again.", false);
-
+            Room Winning = new Room("Congratulations!!! You have defeated the worlds hardest castle challenge, you win thousands, and thousands of bubbles.", "You are the GREATEST OF ALL TIME.", false);
 
             Item ShinyKey = new Item("key", "It's shiny!");
             KeyRoom.Items.Add(ShinyKey);
@@ -167,9 +167,11 @@ namespace CastleGrimtol.Project
             StartingPoint.Exits.Add("west", EndlessBlackHole);
             KeyRoom.Exits.Add("west", StartingPoint);
             KeyRoom.Exits.Add("south", LockedRoom);
-            LockedRoom.Exits.Add("west", FinalRoom);
+            LockedRoom.Exits.Add("west", StinkyRoom);
             LockedRoom.Exits.Add("north", KeyRoom);
-            FinalRoom.Exits.Add("east", LockedRoom);
+            StinkyRoom.Exits.Add("east", LockedRoom);
+            StinkyRoom.Exits.Add("south", Winning);
+
 
 
             CurrentPlayer = new Player();
@@ -197,7 +199,15 @@ namespace CastleGrimtol.Project
                     Reset();
                     Console.WriteLine("");
                 }
-
+                if (CurrentRoom.Name == "Congratulations!!! You have defeated the worlds hardest castle challenge, you win thousands, and thousands of bubbles.")
+                {
+                    System.Console.WriteLine("WINNER WINNER CHICKEN DINNER");
+                    Console.WriteLine("Would you like to play again? y/n");
+                    ConsoleKeyInfo cki = Console.ReadKey(); //wait for player to press a key
+                    playing = cki.KeyChar == 'y'; //continue only if y was pressed
+                    Reset();
+                    Console.WriteLine("");
+                }
             }
 
         }
