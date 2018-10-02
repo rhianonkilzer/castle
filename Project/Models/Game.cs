@@ -52,14 +52,14 @@ namespace CastleGrimtol.Project
 
         public void Go(string direction)
         {
-            if (CurrentRoom.Exits.ContainsKey(direction))
+            if (CurrentRoom.Exits.ContainsKey(direction) && CurrentRoom.Locked != true)
             {
                 CurrentRoom = CurrentRoom.Exits[direction];
                 Look();
-                if (CurrentRoom.GameOver)
-                {
-                    playing = false;
-                }
+            }
+            else if (CurrentRoom.Locked)
+            {
+                System.Console.WriteLine("It's locked... do you have a key?");
             }
             else
             {
@@ -152,11 +152,13 @@ namespace CastleGrimtol.Project
         {
             playing = true;
             //setup rooms
-            Room StartingPoint = new Room("Starting Room:", "Where you woke up", false, false);
-            Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false, false);
-            Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true, false);
-            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false, false);
-            Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false, true);
+            Room StartingPoint = new Room("Starting Room:", "Where you woke up", false);
+            Room KeyRoom = new Room("The next room through the cracked door:", "This room has a shiney key on the floor with a hall leading to the next room", false);
+            Room LockedRoom = new Room("Locked Room:", "This room looks locked...", true);
+            Room FinalRoom = new Room("The Final Room:", "You found the final room!!", false);
+            Room EndlessBlackHole = new Room("Endless Black Hole:", "Looks like you made a poor choice, ...or don't cause You D E D", false);
+            Room Lose = new Room("You lost... Oh jeez. Now what?!", "You should probably try again.", false);
+
 
             Item ShinyKey = new Item("key", "It's shiny!");
             KeyRoom.Items.Add(ShinyKey);
@@ -186,9 +188,21 @@ namespace CastleGrimtol.Project
             while (playing)
             {
                 GetUserInput();
+                if (CurrentRoom.Name == "Endless Black Hole:")
+                {
+                    System.Console.WriteLine("You have died, you lose...");
+                    Console.WriteLine("Would you like to play again? y/n");
+                    ConsoleKeyInfo cki = Console.ReadKey(); //wait for player to press a key
+                    playing = cki.KeyChar == 'y'; //continue only if y was pressed
+                    Reset();
+                    Console.WriteLine("");
+                }
+
             }
 
         }
+
+
 
         public void TakeItem(string itemName)
         {

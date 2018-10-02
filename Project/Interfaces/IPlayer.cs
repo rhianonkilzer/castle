@@ -8,7 +8,5 @@ namespace CastleGrimtol.Project
         List<Item> Items { get; set; }
     }
 
-    // public class Item
-    // {
-    // }
+
 }
